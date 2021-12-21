@@ -1,0 +1,32 @@
+<h1>Listing Domain access tokens</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Domain</th>
+      <th>Token filename</th>
+      <th>Token Body</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for domain_access_token <- @domain_access_tokens do %>
+    <tr>
+      <td><%= domain_access_token.user_id %></td>
+      <td><%= domain_access_token.domain %></td>
+      <td><%= domain_access_token.token_filename %></td>
+      <td><%= domain_access_token.token_body %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.domain_access_token_path(@conn, :show, domain_access_token) %></span>
+        <span><%= link "Edit", to: Routes.domain_access_token_path(@conn, :edit, domain_access_token) %></span>
+        <span><%= link "Delete", to: Routes.domain_access_token_path(@conn, :delete, domain_access_token), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Domain access token", to: Routes.domain_access_token_path(@conn, :new) %></span>

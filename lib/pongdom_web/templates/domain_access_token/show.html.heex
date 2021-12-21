@@ -1,0 +1,28 @@
+<h1>Show Domain access token</h1>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @domain_access_token.user_id %>
+  </li>
+
+  <li>
+    <strong>Domain:</strong>
+    <%= @domain_access_token.domain %>
+  </li>
+
+  <li>
+    <strong>Token filename:</strong>
+    <%= @domain_access_token.token_filename %>
+  </li>
+
+  <li>
+    <strong>Token Body:</strong>
+    <%= @domain_access_token.token_body %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.domain_access_token_path(@conn, :edit, @domain_access_token) %></span> |
+<span><%= link "Back", to: Routes.domain_access_token_path(@conn, :index) %></span>

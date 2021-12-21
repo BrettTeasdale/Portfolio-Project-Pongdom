@@ -1,0 +1,23 @@
+<h1>Show Request</h1>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @request.user_id %>
+  </li>
+
+  <li>
+    <strong>Uri:</strong>
+    <%= @request.uri %>
+  </li>
+
+  <li>
+    <strong>Frequency per our:</strong>
+    <%= @request.frequency_per_hour %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.request_path(@conn, :edit, @request) %></span> |
+<span><%= link "Back", to: Routes.request_path(@conn, :index) %></span>

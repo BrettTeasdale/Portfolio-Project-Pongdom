@@ -1,0 +1,9 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    network_mode: host
+    restart: always
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpassword
