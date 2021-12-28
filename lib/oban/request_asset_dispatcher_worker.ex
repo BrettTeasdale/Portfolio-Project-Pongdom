@@ -2,7 +2,7 @@ defmodule Pongdom.RequestAssetDispatcherWorker do
     use Oban.Worker, queue: :request_asset_dispatcher
   
     @impl Oban.Worker
-    def perform(%Oban.Job{args: %{"uri" => uri, "request_response_id" => request_response_id, "html" => html} = args}) do
+    def perform(%Oban.Job{args: %{"user_id" => user_id, "request_uri" => request_uri, "request_response_id" => request_response_id, "html" => html} = args}) do
       IO.puts "Parsing assets"
       {:ok, document} = Floki.parse_document(html)
 
@@ -12,7 +12,7 @@ defmodule Pongdom.RequestAssetDispatcherWorker do
       :ok
     end
 
-    defp parse_link_elements(document, %{"uri" => uri, "request_response_id" => request_response_id} = args) do
+    defp parse_link_elements(document, %{"user_id" => user_id, "request_uri" => request_uri, "request_response_id" => request_response_id} = args) do
       Enum.each(Floki.find(document, "link"), fn(link_element) ->
         {_, attributes, _} = link_element
 
@@ -24,14 +24,14 @@ defmodule Pongdom.RequestAssetDispatcherWorker do
 
     defp dispatch_job_on_link_href_attribute(attribute, args) do
       case(attribute) do
-        {"href", path} ->
+        {"href", request_asset_uri} ->
           IO.puts "link"
-          Map.put(args, :path, path) |> Pongdom.RequestAssetWorker.new() |> Oban.insert() 
+          Map.put(args, :request_asset_uri, request_asset_uri) |> Pongdom.RequestAssetWorker.new() |> Oban.insert() 
       _ -> nil
       end
     end
 
-    defp parse_script_elements(document, %{"uri" => uri, "request_response_id" => request_response_id} = args) do
+    defp parse_script_elements(document, %{"user_id" => user_id, "request_uri" => request_uri, "request_response_id" => request_response_id} = args) do
       Enum.each(Floki.find(document, "script"), fn(link_element) ->
         {_, attributes, _} = link_element
 
@@ -43,9 +43,9 @@ defmodule Pongdom.RequestAssetDispatcherWorker do
 
     defp dispatch_job_on_script_src_attribute(attribute, args) do
       case(attribute) do
-        {"src", path} ->
+        {"src", request_asset_uri} ->
           IO.puts "script"
-          Map.put(args, :path, path) |> Pongdom.RequestAssetWorker.new() |> Oban.insert() 
+          Map.put(args, :request_asset_uri, request_asset_uri) |> Pongdom.RequestAssetWorker.new() |> Oban.insert() 
         _ -> nil
       end
     end

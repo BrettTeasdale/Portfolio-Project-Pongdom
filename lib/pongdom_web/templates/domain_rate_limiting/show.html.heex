@@ -1,0 +1,28 @@
+<h1>Show Domain rate limiting</h1>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @domain_rate_limiting.user_id %>
+  </li>
+
+  <li>
+    <strong>Domain:</strong>
+    <%= @domain_rate_limiting.domain %>
+  </li>
+
+  <li>
+    <strong>Scale ms:</strong>
+    <%= @domain_rate_limiting.scale_ms %>
+  </li>
+
+  <li>
+    <strong>Limit:</strong>
+    <%= @domain_rate_limiting.limit %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.domain_rate_limiting_path(@conn, :edit, @domain_rate_limiting) %></span> |
+<span><%= link "Back", to: Routes.domain_rate_limiting_path(@conn, :index) %></span>

@@ -1,0 +1,32 @@
+<h1>Listing Domain rate limiting</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Domain</th>
+      <th>Scale ms</th>
+      <th>Limit</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for domain_rate_limiting <- @domain_rate_limiting do %>
+    <tr>
+      <td><%= domain_rate_limiting.user_id %></td>
+      <td><%= domain_rate_limiting.domain %></td>
+      <td><%= domain_rate_limiting.scale_ms %></td>
+      <td><%= domain_rate_limiting.limit %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.domain_rate_limiting_path(@conn, :show, domain_rate_limiting) %></span>
+        <span><%= link "Edit", to: Routes.domain_rate_limiting_path(@conn, :edit, domain_rate_limiting) %></span>
+        <span><%= link "Delete", to: Routes.domain_rate_limiting_path(@conn, :delete, domain_rate_limiting), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Domain rate limiting", to: Routes.domain_rate_limiting_path(@conn, :new) %></span>

@@ -61,4 +61,38 @@ defmodule Pongdom.AccountsFixtures do
 
     domain_access_token
   end
+
+  @doc """
+  Generate a domain_rate_limiting.
+  """
+  def domain_rate_limiting_fixture(attrs \\ %{}) do
+    {:ok, domain_rate_limiting} =
+      attrs
+      |> Enum.into(%{
+        domain: "some domain",
+        limit: 42,
+        scale: 42,
+        user_id: 42
+      })
+      |> Pongdom.Accounts.create_domain_rate_limiting()
+
+    domain_rate_limiting
+  end
+
+  @doc """
+  Generate a domain_rate_limiting.
+  """
+  def domain_rate_limiting_fixture(attrs \\ %{}) do
+    {:ok, domain_rate_limiting} =
+      attrs
+      |> Enum.into(%{
+        domain: "some domain",
+        limit: 42,
+        scale_ms: 42,
+        user_id: 42
+      })
+      |> Pongdom.Accounts.create_domain_rate_limiting()
+
+    domain_rate_limiting
+  end
 end

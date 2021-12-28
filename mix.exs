@@ -51,6 +51,7 @@ defmodule Pongdom.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
 
+      # pongdom dependencies
       {:oban, "~> 2.10"},
       {:hammer, "~> 6.0"},
       {:httpoison, "~> 1.8"},

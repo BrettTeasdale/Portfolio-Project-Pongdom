@@ -6,7 +6,7 @@ defmodule Pongdom.Accounts do
   import Ecto.Query, warn: false
   alias Pongdom.Repo
 
-  alias Pongdom.Accounts.{Users, UsersToken, UsersNotifier}
+  alias Pongdom.Accounts.{Users, UsersToken, UsersNotifier, DomainRateLimiting}
 
   ## Database getters
 
@@ -541,5 +541,121 @@ defmodule Pongdom.Accounts do
   """
   def change_domain_access_token(%DomainAccessToken{} = domain_access_token, attrs \\ %{}) do
     DomainAccessToken.changeset(domain_access_token, attrs)
+  end
+
+  alias Pongdom.Accounts.DomainRateLimiting
+
+  @doc """
+  Returns the list of domain_rate_limiting.
+
+  ## Examples
+
+      iex> list_domain_rate_limiting()
+      [%DomainRateLimiting{}, ...]
+
+  """
+  def list_domain_rate_limiting do
+    Repo.all(DomainRateLimiting)
+  end
+
+  @doc """
+  Gets a single domain_rate_limiting.
+
+  Raises `Ecto.NoResultsError` if the Domain rate limiting does not exist.
+
+  ## Examples
+
+      iex> get_domain_rate_limiting!(123)
+      %DomainRateLimiting{}
+
+      iex> get_domain_rate_limiting!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_domain_rate_limiting!(id), do: Repo.get!(DomainRateLimiting, id)
+
+  @doc """
+  Gets a single domain_rate_limiting by user_id and uri.
+
+  Returns nil if record not found
+
+  ## Examples
+
+      iex> get_domain_rate_limiting(123, "localhost")
+      %DomainRateLimiting{}
+
+      iex> get_domain_rate_limiting(456)
+      ** nil
+
+  """
+  def get_domain_rate_limiting(user_id, uri) do
+    query = from DomainRateLimiting, where: [user_id: ^user_id, domain: ^uri]
+    Repo.one(query)
+  end
+
+
+  @doc """
+  Creates a domain_rate_limiting.
+
+  ## Examples
+
+      iex> create_domain_rate_limiting(%{field: value})
+      {:ok, %DomainRateLimiting{}}
+
+      iex> create_domain_rate_limiting(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_domain_rate_limiting(attrs \\ %{}) do
+    %DomainRateLimiting{}
+    |> DomainRateLimiting.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a domain_rate_limiting.
+
+  ## Examples
+
+      iex> update_domain_rate_limiting(domain_rate_limiting, %{field: new_value})
+      {:ok, %DomainRateLimiting{}}
+
+      iex> update_domain_rate_limiting(domain_rate_limiting, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_domain_rate_limiting(%DomainRateLimiting{} = domain_rate_limiting, attrs) do
+    domain_rate_limiting
+    |> DomainRateLimiting.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a domain_rate_limiting.
+
+  ## Examples
+
+      iex> delete_domain_rate_limiting(domain_rate_limiting)
+      {:ok, %DomainRateLimiting{}}
+
+      iex> delete_domain_rate_limiting(domain_rate_limiting)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_domain_rate_limiting(%DomainRateLimiting{} = domain_rate_limiting) do
+    Repo.delete(domain_rate_limiting)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking domain_rate_limiting changes.
+
+  ## Examples
+
+      iex> change_domain_rate_limiting(domain_rate_limiting)
+      %Ecto.Changeset{data: %DomainRateLimiting{}}
+
+  """
+  def change_domain_rate_limiting(%DomainRateLimiting{} = domain_rate_limiting, attrs \\ %{}) do
+    DomainRateLimiting.changeset(domain_rate_limiting, attrs)
   end
 end

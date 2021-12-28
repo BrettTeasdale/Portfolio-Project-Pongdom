@@ -29,6 +29,7 @@ defmodule PongdomWeb.Router do
     resources "/requests", RequestController
     resources "/tokens", DomainAccessTokenController
     get "/tokens/:id/download", DomainAccessTokenController, :download
+    resources "/rates", DomainRateLimitingController
   end
 
   # Other scopes may use custom stacks.

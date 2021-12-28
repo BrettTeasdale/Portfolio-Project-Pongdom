@@ -1,0 +1,5 @@
+<h1>Edit Domain rate limiting</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.domain_rate_limiting_path(@conn, :update, @domain_rate_limiting)) %>
+
+<span><%= link "Back", to: Routes.domain_rate_limiting_path(@conn, :index) %></span>
