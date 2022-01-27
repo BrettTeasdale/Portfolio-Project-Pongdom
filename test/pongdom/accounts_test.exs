@@ -2,6 +2,7 @@ defmodule Pongdom.AccountsTest do
   use Pongdom.DataCase
 
   alias Pongdom.Accounts
+  alias Pongdom.Repo
 
   import Pongdom.AccountsFixtures
   alias Pongdom.Accounts.{Users, UsersToken}
@@ -569,7 +570,7 @@ defmodule Pongdom.AccountsTest do
 
     import Pongdom.AccountsFixtures
 
-    @invalid_attrs %{domain: nil, token: nil, token_filename: nil, user_id: nil}
+    @invalid_attrs %{domain: nil, token: nil, token_filename: nil, token_body: nil, user_id: nil}
 
     test "list_domain_access_tokens/0 returns all domain_access_tokens" do
       domain_access_token = domain_access_token_fixture()
@@ -582,12 +583,12 @@ defmodule Pongdom.AccountsTest do
     end
 
     test "create_domain_access_token/1 with valid data creates a domain_access_token" do
-      valid_attrs = %{domain: "some domain", token: "some token", token_filename: "some token_filename", user_id: 42}
+      valid_attrs = %{domain: "some domain", token_filename: "some token_filename", token_body: "some token_body", user_id: 42}
 
       assert {:ok, %DomainAccessToken{} = domain_access_token} = Accounts.create_domain_access_token(valid_attrs)
       assert domain_access_token.domain == "some domain"
-      assert domain_access_token.token == "some token"
       assert domain_access_token.token_filename == "some token_filename"
+      assert domain_access_token.token_body == "some token_body"
       assert domain_access_token.user_id == 42
     end
 
@@ -597,12 +598,12 @@ defmodule Pongdom.AccountsTest do
 
     test "update_domain_access_token/2 with valid data updates the domain_access_token" do
       domain_access_token = domain_access_token_fixture()
-      update_attrs = %{domain: "some updated domain", token: "some updated token", token_filename: "some updated token_filename", user_id: 43}
+      update_attrs = %{domain: "some updated domain", token_filename: "some updated token_filename", token_body: "some updated token_body", user_id: 43}
 
       assert {:ok, %DomainAccessToken{} = domain_access_token} = Accounts.update_domain_access_token(domain_access_token, update_attrs)
       assert domain_access_token.domain == "some updated domain"
-      assert domain_access_token.token == "some updated token"
       assert domain_access_token.token_filename == "some updated token_filename"
+      assert domain_access_token.token_body == "some updated token_body"
       assert domain_access_token.user_id == 43
     end
 
@@ -621,66 +622,6 @@ defmodule Pongdom.AccountsTest do
     test "change_domain_access_token/1 returns a domain_access_token changeset" do
       domain_access_token = domain_access_token_fixture()
       assert %Ecto.Changeset{} = Accounts.change_domain_access_token(domain_access_token)
-    end
-  end
-
-  describe "domain_rate_limiting" do
-    alias Pongdom.Accounts.DomainRateLimiting
-
-    import Pongdom.AccountsFixtures
-
-    @invalid_attrs %{domain: nil, limit: nil, scale: nil, user_id: nil}
-
-    test "list_domain_rate_limiting/0 returns all domain_rate_limiting" do
-      domain_rate_limiting = domain_rate_limiting_fixture()
-      assert Accounts.list_domain_rate_limiting() == [domain_rate_limiting]
-    end
-
-    test "get_domain_rate_limiting!/1 returns the domain_rate_limiting with given id" do
-      domain_rate_limiting = domain_rate_limiting_fixture()
-      assert Accounts.get_domain_rate_limiting!(domain_rate_limiting.id) == domain_rate_limiting
-    end
-
-    test "create_domain_rate_limiting/1 with valid data creates a domain_rate_limiting" do
-      valid_attrs = %{domain: "some domain", limit: 42, scale: 42, user_id: 42}
-
-      assert {:ok, %DomainRateLimiting{} = domain_rate_limiting} = Accounts.create_domain_rate_limiting(valid_attrs)
-      assert domain_rate_limiting.domain == "some domain"
-      assert domain_rate_limiting.limit == 42
-      assert domain_rate_limiting.scale == 42
-      assert domain_rate_limiting.user_id == 42
-    end
-
-    test "create_domain_rate_limiting/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Accounts.create_domain_rate_limiting(@invalid_attrs)
-    end
-
-    test "update_domain_rate_limiting/2 with valid data updates the domain_rate_limiting" do
-      domain_rate_limiting = domain_rate_limiting_fixture()
-      update_attrs = %{domain: "some updated domain", limit: 43, scale: 43, user_id: 43}
-
-      assert {:ok, %DomainRateLimiting{} = domain_rate_limiting} = Accounts.update_domain_rate_limiting(domain_rate_limiting, update_attrs)
-      assert domain_rate_limiting.domain == "some updated domain"
-      assert domain_rate_limiting.limit == 43
-      assert domain_rate_limiting.scale == 43
-      assert domain_rate_limiting.user_id == 43
-    end
-
-    test "update_domain_rate_limiting/2 with invalid data returns error changeset" do
-      domain_rate_limiting = domain_rate_limiting_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_domain_rate_limiting(domain_rate_limiting, @invalid_attrs)
-      assert domain_rate_limiting == Accounts.get_domain_rate_limiting!(domain_rate_limiting.id)
-    end
-
-    test "delete_domain_rate_limiting/1 deletes the domain_rate_limiting" do
-      domain_rate_limiting = domain_rate_limiting_fixture()
-      assert {:ok, %DomainRateLimiting{}} = Accounts.delete_domain_rate_limiting(domain_rate_limiting)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_domain_rate_limiting!(domain_rate_limiting.id) end
-    end
-
-    test "change_domain_rate_limiting/1 returns a domain_rate_limiting changeset" do
-      domain_rate_limiting = domain_rate_limiting_fixture()
-      assert %Ecto.Changeset{} = Accounts.change_domain_rate_limiting(domain_rate_limiting)
     end
   end
 

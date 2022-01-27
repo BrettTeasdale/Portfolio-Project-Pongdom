@@ -3,14 +3,23 @@ import Config
 # Only in tests, remove the complexity from the password hashing algorithm
 config :bcrypt_elixir, :log_rounds, 1
 
+config :pongdom, Oban,
+  repo: Pongdom.Repo,
+  plugins: false,
+  queues: false
+
+
+config :pongdom, ObanWeb, stats: false
+
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :pongdom, Pongdom.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "dbuser",
+  password: "dbpassword",
   database: "pongdom_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox,

@@ -7,6 +7,8 @@ defmodule PongdomWeb.DomainRateLimitingControllerTest do
   @update_attrs %{domain: "some updated domain", limit: 43, scale_ms: 43, user_id: 43}
   @invalid_attrs %{domain: nil, limit: nil, scale_ms: nil, user_id: nil}
 
+  setup :register_and_log_in_users
+
   describe "index" do
     test "lists all domain_rate_limiting", %{conn: conn} do
       conn = get(conn, Routes.domain_rate_limiting_path(conn, :index))

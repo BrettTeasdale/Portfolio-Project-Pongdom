@@ -1,11 +1,13 @@
 defmodule PongdomWeb.DomainAccessTokenControllerTest do
-  use PongdomWeb.ConnCase
+  use PongdomWeb.ConnCase, async: false
 
   import Pongdom.AccountsFixtures
 
-  @create_attrs %{domain: "some domain", token: "some token", token_filename: "some token_filename", user_id: 42}
-  @update_attrs %{domain: "some updated domain", token: "some updated token", token_filename: "some updated token_filename", user_id: 43}
-  @invalid_attrs %{domain: nil, token: nil, token_filename: nil, user_id: nil}
+  @create_attrs %{domain: "some domain", token_filename: "some token_filename", token_body: "some token_body", user_id: 42}
+  @update_attrs %{domain: "some updated domain", token_filename: "some updated token_filename", token_body: "some updated token_body", user_id: 43}
+  @invalid_attrs %{domain: nil, token_filename: nil, token_body: nil, user_id: nil}
+
+  setup :register_and_log_in_users
 
   describe "index" do
     test "lists all domain_access_tokens", %{conn: conn} do

@@ -7,6 +7,8 @@ defmodule PongdomWeb.RequestControllerTest do
   @update_attrs %{frequency_per_hour: 43, uri: "some updated uri", user_id: 43}
   @invalid_attrs %{frequency_per_hour: nil, uri: nil, user_id: nil}
 
+  setup :register_and_log_in_users
+
   describe "index" do
     test "lists all requests", %{conn: conn} do
       conn = get(conn, Routes.request_path(conn, :index))
