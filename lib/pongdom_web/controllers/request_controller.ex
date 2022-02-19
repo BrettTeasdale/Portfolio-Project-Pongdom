@@ -31,6 +31,24 @@ defmodule PongdomWeb.RequestController do
     render(conn, "show.html", request: request)
   end
 
+  def data(conn, %{"id" => id}) do
+    data = for request_response <- Accounts.get_request_responses(id) do
+      [
+        request_response.response_time,
+        request_response.inserted_at |> DateTime.from_naive!("Etc/UTC") |> DateTime.to_unix
+      ]
+    end
+
+    json_map = %{
+      x: Enum.map(data, fn [x, _] -> x end),
+      y: Enum.map(data, fn [_, y] -> y end)
+    }
+
+    conn
+    |> put_resp_header("content-type", "application/json; charset=utf-8")
+    |> send_resp(200, JSON.encode! json_map)
+  end
+
   def edit(conn, %{"id" => id}) do
     request = Accounts.get_request!(id)
     changeset = Accounts.change_request(request)

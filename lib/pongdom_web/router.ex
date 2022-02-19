@@ -27,6 +27,7 @@ defmodule PongdomWeb.Router do
     pipe_through [:browser, :require_authenticated_users]
 
     resources "/requests", RequestController
+    get "/requests/:id/data", RequestController, :data
     resources "/tokens", DomainAccessTokenController
     get "/tokens/:id/download", DomainAccessTokenController, :download
     resources "/rates", DomainRateLimitingController

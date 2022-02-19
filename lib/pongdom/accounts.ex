@@ -658,4 +658,27 @@ defmodule Pongdom.Accounts do
   def change_domain_rate_limiting(%DomainRateLimiting{} = domain_rate_limiting, attrs \\ %{}) do
     DomainRateLimiting.changeset(domain_rate_limiting, attrs)
   end
+
+  alias Pongdom.Accounts.RequestResponse
+
+  @doc """
+  Gets a list of request_responses by request_id.
+
+  Returns nil if record not found
+
+  ## Examples
+
+      iex> get_request_responses(123)
+      [
+        %RequestResponse{},
+        %RequestResponse{}
+      ]
+
+      iex> get_request_responses(456)
+      ** nil
+  """
+  def get_request_responses(request_id) do
+    query = from RequestResponse, where: [request_id: ^request_id]
+    Repo.all(query)
+  end
 end

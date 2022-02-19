@@ -43,3 +43,7 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+// Alpine.js
+import Alpine from '../vendor/alpine-3.9.0'
+import ChartJS from '../vendor/chart.js'
+import RequestChart from '../js/request-chart.js'
