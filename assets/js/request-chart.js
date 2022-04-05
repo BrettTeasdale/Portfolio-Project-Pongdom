@@ -1,3 +1,27 @@
+const scaleOpts = {
+    grid: {
+        //borderColor: Utils.randomColor(1),
+        color: 'rgba( 0, 0, 0, 0.1)',
+    },
+    title: {
+        display: true,
+        text: (ctx) => ctx.scale.axis + ' axis',
+    }
+};
+
+const scales = {
+    x: {
+        type: 'category',
+    },
+    y: {
+        type: 'linear',
+        ticks: {
+            callback: (val, index, ticks) => index === 0 || index === ticks.length - 1 ? null : val,
+        },
+    },
+};
+Object.keys(scales).forEach(scale => Object.assign(scales[scale], scaleOpts));
+
 chartData = function(){
     return {
         data: null,
@@ -35,6 +59,25 @@ chartData = function(){
                             data: this.data.x,
                         }
                     ]
+                },
+                options: {
+                    scales: scales,
+                    plugins: {
+                        tooltip: false,
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'x',
+                                modifierKey: 'ctrl',
+                            },
+                            zoom: {
+                                drag: {
+                                    enabled: true
+                                },
+                                mode: 'x',
+                            },
+                        }    
+                    }
                 }
             });
         }

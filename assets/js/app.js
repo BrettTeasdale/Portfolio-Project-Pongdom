@@ -43,7 +43,10 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
-// Alpine.js
+// My bootstrapping
+import { Chart } from '../vendor/chart.js'
+import zoomPlugin from '../vendor/chartjs-plugin-zoom.js'
+Chart.register(zoomPlugin)
+
+import chartData from '../js/request-chart.js'
 import Alpine from '../vendor/alpine-3.9.0'
-import ChartJS from '../vendor/chart.js'
-import RequestChart from '../js/request-chart.js'
